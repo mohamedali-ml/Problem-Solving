@@ -1,33 +1,101 @@
-<h2><a href="https://leetcode.com/problems/greatest-common-divisor-of-strings">1146. Greatest Common Divisor of Strings</a></h2><h3>Easy</h3><hr><p>For two strings <code>s</code> and <code>t</code>, we say &quot;<code>t</code> divides <code>s</code>&quot; if and only if <code>s = t + t + t + ... + t + t</code> (i.e., <code>t</code> is concatenated with itself one or more times).</p>
+# GCD of Strings
 
-<p>Given two strings <code>str1</code> and <code>str2</code>, return <em>the largest string </em><code>x</code><em> such that </em><code>x</code><em> divides both </em><code>str1</code><em> and </em><code>str2</code>.</p>
+## Problem Description
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+The **Greatest Common Divisor (GCD) of Strings** is a problem where, given two strings `str1` and `str2`, the goal is to determine the largest string `S` such that:
 
-<pre>
-<strong>Input:</strong> str1 = &quot;ABCABC&quot;, str2 = &quot;ABC&quot;
-<strong>Output:</strong> &quot;ABC&quot;
-</pre>
+1. Both `str1` and `str2` can be formed by repeating `S` multiple times.
+2. `S` is the longest possible string satisfying the above condition.
 
-<p><strong class="example">Example 2:</strong></p>
+---
 
-<pre>
-<strong>Input:</strong> str1 = &quot;ABABAB&quot;, str2 = &quot;ABAB&quot;
-<strong>Output:</strong> &quot;AB&quot;
-</pre>
+## Algorithm Explanation
 
-<p><strong class="example">Example 3:</strong></p>
+### Key Steps:
+1. **Concatenation Check**: If `str1 + str2 != str2 + str1`, it is impossible for the strings to share a common divisor. In this case, return an empty string.
+2. **GCD of Lengths**: Compute the GCD of the lengths of `str1` and `str2` using the Euclidean algorithm. The GCD length determines the size of the largest possible common divisor string.
+3. **Substring Extraction**: The first `GCD length` characters of `str1` represent the largest common divisor string.
 
-<pre>
-<strong>Input:</strong> str1 = &quot;LEET&quot;, str2 = &quot;CODE&quot;
-<strong>Output:</strong> &quot;&quot;
-</pre>
+---
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+## Example Traces
 
-<ul>
-	<li><code>1 &lt;= str1.length, str2.length &lt;= 1000</code></li>
-	<li><code>str1</code> and <code>str2</code> consist of English uppercase letters.</li>
-</ul>
+### Example 1: `str1 = "ABCABC", str2 = "ABC"`
+
+| Step                | Operation                                     | Result          |
+|---------------------|-----------------------------------------------|-----------------|
+| Concatenation Check | `"ABCABC" + "ABC" == "ABC" + "ABCABC"`        | True            |
+| GCD of Lengths      | GCD of `len("ABCABC") = 6` and `len("ABC") = 3` | GCD = 3         |
+| Substring Extraction| First 3 characters of `"ABCABC"`              | `"ABC"`         |
+
+**Output**: `"ABC"`
+
+---
+
+### Example 2: `str1 = "ABABAB", str2 = "AB"`
+
+| Step                | Operation                                     | Result          |
+|---------------------|-----------------------------------------------|-----------------|
+| Concatenation Check | `"ABABAB" + "AB" == "AB" + "ABABAB"`          | True            |
+| GCD of Lengths      | GCD of `len("ABABAB") = 6` and `len("AB") = 2` | GCD = 2         |
+| Substring Extraction| First 2 characters of `"ABABAB"`              | `"AB"`          |
+
+**Output**: `"AB"`
+
+---
+
+### Example 3: `str1 = "LEET", str2 = "CODE"`
+
+| Step                | Operation                                     | Result          |
+|---------------------|-----------------------------------------------|-----------------|
+| Concatenation Check | `"LEET" + "CODE" != "CODE" + "LEET"`          | False           |
+| GCD of Lengths      | Not applicable                                | -               |
+| Substring Extraction| Not applicable                                | -               |
+
+**Output**: `""`
+
+---
+
+## Complexity Analysis
+
+## Complexity Analysis
+
+### Time Complexity
+1. **Concatenation Check**: `O(len(str1) + len(str2))`
+2. **GCD Calculation**: `O(log(min(len(str1), len(str2))))`
+3. **Substring Extraction**: `O(len(str1))`
+
+**Total Time Complexity**:  
+`O(len(str1) + len(str2) + log(min(len(str1), len(str2))))`
+
+### Space Complexity
+- The algorithm uses constant extra space, i.e., `O(1)`.
+
+
+---
+
+## Code Implementation
+
+```python
+class Solution:
+    def gcdOfStrings(self, str1: str, str2: str) -> str:
+        """
+        Finds the greatest common divisor (GCD) of two strings.
+        
+        Parameters:
+        - str1 (str): The first input string.
+        - str2 (str): The second input string.
+        
+        Returns:
+        - str: The largest common divisor string, or an empty string if none exists.
+        """
+        def greatest_common_divisor(a, b):
+            while b:
+                a, b = b, a % b
+            return a
+        
+        if str1 + str2 != str2 + str1:
+            return ""
+        
+        gcd_length = greatest_common_divisor(len(str1), len(str2))
+        return str1[:gcd_length]
