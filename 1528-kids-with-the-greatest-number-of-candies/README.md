@@ -1,45 +1,79 @@
-<h2><a href="https://leetcode.com/problems/kids-with-the-greatest-number-of-candies">1528. Kids With the Greatest Number of Candies</a></h2><h3>Easy</h3><hr><p>There are <code>n</code> kids with candies. You are given an integer array <code>candies</code>, where each <code>candies[i]</code> represents the number of candies the <code>i<sup>th</sup></code> kid has, and an integer <code>extraCandies</code>, denoting the number of extra candies that you have.</p>
+# Kids With Candies
 
-<p>Return <em>a boolean array </em><code>result</code><em> of length </em><code>n</code><em>, where </em><code>result[i]</code><em> is </em><code>true</code><em> if, after giving the </em><code>i<sup>th</sup></code><em> kid all the </em><code>extraCandies</code><em>, they will have the <strong>greatest</strong> number of candies among all the kids</em><em>, or </em><code>false</code><em> otherwise</em>.</p>
+## Problem Description
 
-<p>Note that <strong>multiple</strong> kids can have the <strong>greatest</strong> number of candies.</p>
+Given a list of integers representing the number of candies each kid has, and an integer representing extra candies, determine which kids could have the greatest number of candies after receiving the extra candies. Return a boolean list where `True` means the kid can have the most candies and `False` means they cannot.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+---
 
-<pre>
-<strong>Input:</strong> candies = [2,3,5,1,3], extraCandies = 3
-<strong>Output:</strong> [true,true,true,false,true] 
-<strong>Explanation:</strong> If you give all extraCandies to:
-- Kid 1, they will have 2 + 3 = 5 candies, which is the greatest among the kids.
-- Kid 2, they will have 3 + 3 = 6 candies, which is the greatest among the kids.
-- Kid 3, they will have 5 + 3 = 8 candies, which is the greatest among the kids.
-- Kid 4, they will have 1 + 3 = 4 candies, which is not the greatest among the kids.
-- Kid 5, they will have 3 + 3 = 6 candies, which is the greatest among the kids.
-</pre>
+## Examples and Traces
 
-<p><strong class="example">Example 2:</strong></p>
+### Example 1: `candies = [2, 3, 5, 1, 3], extraCandies = 3`
 
-<pre>
-<strong>Input:</strong> candies = [4,2,1,1,2], extraCandies = 1
-<strong>Output:</strong> [true,false,false,false,false] 
-<strong>Explanation:</strong> There is only 1 extra candy.
-Kid 1 will always have the greatest number of candies, even if a different kid is given the extra candy.
-</pre>
+| Kid | Candies Before | Candies After Adding Extra | Max Candies | Result |
+|-----|----------------|----------------------------|-------------|--------|
+| 1   | 2              | 2 + 3 = 5                 | 5           | True   |
+| 2   | 3              | 3 + 3 = 6                 | 5           | True   |
+| 3   | 5              | 5 + 3 = 8                 | 5           | True   |
+| 4   | 1              | 1 + 3 = 4                 | 5           | False  |
+| 5   | 3              | 3 + 3 = 6                 | 5           | True   |
 
-<p><strong class="example">Example 3:</strong></p>
+**Output**: `[True, True, True, False, True]`
 
-<pre>
-<strong>Input:</strong> candies = [12,1,12], extraCandies = 10
-<strong>Output:</strong> [true,false,true]
-</pre>
+---
 
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+### Example 2: `candies = [4, 2, 1, 1, 2], extraCandies = 1`
 
-<ul>
-	<li><code>n == candies.length</code></li>
-	<li><code>2 &lt;= n &lt;= 100</code></li>
-	<li><code>1 &lt;= candies[i] &lt;= 100</code></li>
-	<li><code>1 &lt;= extraCandies &lt;= 50</code></li>
-</ul>
+| Kid | Candies Before | Candies After Adding Extra | Max Candies | Result |
+|-----|----------------|----------------------------|-------------|--------|
+| 1   | 4              | 4 + 1 = 5                 | 4           | True   |
+| 2   | 2              | 2 + 1 = 3                 | 4           | False  |
+| 3   | 1              | 1 + 1 = 2                 | 4           | False  |
+| 4   | 1              | 1 + 1 = 2                 | 4           | False  |
+| 5   | 2              | 2 + 1 = 3                 | 4           | False  |
+
+**Output**: `[True, False, False, False, False]`
+
+---
+
+### Example 3: `candies = [12, 1, 12], extraCandies = 10`
+
+| Kid | Candies Before | Candies After Adding Extra | Max Candies | Result |
+|-----|----------------|----------------------------|-------------|--------|
+| 1   | 12             | 12 + 10 = 22              | 12          | True   |
+| 2   | 1              | 1 + 10 = 11               | 12          | False  |
+| 3   | 12             | 12 + 10 = 22              | 12          | True   |
+
+**Output**: `[True, False, True]`
+
+---
+
+## Complexity Analysis
+
+### Time Complexity
+1. **Finding Max Candies**: `O(n)` where `n` is the length of the `candies` list.
+2. **Iterating Through the List**: `O(n)` to calculate the results for each kid.
+
+**Total Time Complexity**: `O(n)`
+
+### Space Complexity
+- The algorithm uses a list `result` to store boolean values for each kid, which takes `O(n)` space.
+- Additional space for temporary variables is constant: `O(1)`.
+
+**Total Space Complexity**: `O(n)`
+
+---
+
+## How to Use
+
+1. Clone the repository.
+2. Include the `Solution` class in your project.
+3. Call the `kidsWithCandies` method with a list of candies and the extra candies value.
+
+### Example Usage:
+```python
+sol = Solution()
+candies = [2, 3, 5, 1, 3]
+extraCandies = 3
+print(sol.kidsWithCandies(candies, extraCandies))
+# Output: [True, True, True, False, True]
