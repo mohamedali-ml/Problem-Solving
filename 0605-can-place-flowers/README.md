@@ -1,21 +1,101 @@
-<h2><a href="https://leetcode.com/problems/can-place-flowers">605. Can Place Flowers</a></h2><h3>Easy</h3><hr><p>You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in <strong>adjacent</strong> plots.</p>
+# Can Place Flowers
 
-<p>Given an integer array <code>flowerbed</code> containing <code>0</code>&#39;s and <code>1</code>&#39;s, where <code>0</code> means empty and <code>1</code> means not empty, and an integer <code>n</code>, return <code>true</code>&nbsp;<em>if</em> <code>n</code> <em>new flowers can be planted in the</em> <code>flowerbed</code> <em>without violating the no-adjacent-flowers rule and</em> <code>false</code> <em>otherwise</em>.</p>
+## Problem Description
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> flowerbed = [1,0,0,0,1], n = 1
-<strong>Output:</strong> true
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> flowerbed = [1,0,0,0,1], n = 2
-<strong>Output:</strong> false
-</pre>
-<p>&nbsp;</p>
-<p><strong>Constraints:</strong></p>
+You are given a flowerbed represented as a list of integers, where:
+- `1` indicates a plot already planted with a flower.
+- `0` indicates an empty plot.
 
-<ul>
-	<li><code>1 &lt;= flowerbed.length &lt;= 2 * 10<sup>4</sup></code></li>
-	<li><code>flowerbed[i]</code> is <code>0</code> or <code>1</code>.</li>
-	<li>There are no two adjacent flowers in <code>flowerbed</code>.</li>
-	<li><code>0 &lt;= n &lt;= flowerbed.length</code></li>
-</ul>
+You are also given an integer `n`, which represents the number of flowers you want to plant. Flowers cannot be planted in adjacent plots.
+
+The task is to determine if it is possible to plant `n` flowers in the flowerbed without violating the no-adjacent-flowers rule.
+
+---
+
+## Approach
+
+1. **Iterate Through the Flowerbed**: Traverse each plot in the flowerbed.
+2. **Check Current Plot**: If the current plot is empty (`0`):
+   - Check if the left plot is empty or if the current plot is at the beginning of the flowerbed.
+   - Check if the right plot is empty or if the current plot is at the end of the flowerbed.
+3. **Plant the Flower**: If both conditions are satisfied, plant a flower in the current plot (`set the value to 1`) and increment the count.
+4. **Early Termination**: If the count of planted flowers equals or exceeds `n`, return `True`.
+5. **Final Check**: If the loop completes and the count is less than `n`, return `False`.
+
+---
+
+## Complexity Analysis
+
+### Time Complexity
+- **Iteration**: The solution involves a single pass through the flowerbed.
+- Complexity: \( O(\text{len}(flowerbed)) \).
+
+### Space Complexity
+- **Extra Storage**: No additional data structures are used, only variables for tracking count and conditions.
+- Complexity: \( O(1) \).
+
+---
+
+## Examples and Traces
+
+### Example 1: `flowerbed = [1, 0, 0, 0, 1], n = 1`
+
+| Index | Current Plot | Left Plot | Right Plot | Can Plant | Action      | Updated Flowerbed | Count |
+|-------|--------------|-----------|------------|-----------|-------------|-------------------|-------|
+| 0     | 1            | N/A       | 0          | No        | Skip        | [1, 0, 0, 0, 1]   | 0     |
+| 1     | 0            | 1         | 0          | No        | Skip        | [1, 0, 0, 0, 1]   | 0     |
+| 2     | 0            | 0         | 0          | Yes       | Plant Flower | [1, 0, 1, 0, 1]   | 1     |
+| 3     | 0            | 1         | 1          | No        | Skip        | [1, 0, 1, 0, 1]   | 1     |
+| 4     | 1            | 0         | N/A        | No        | Skip        | [1, 0, 1, 0, 1]   | 1     |
+
+**Output**: `True`
+
+---
+
+### Example 2: `flowerbed = [1, 0, 0, 0, 1], n = 2`
+
+| Index | Current Plot | Left Plot | Right Plot | Can Plant | Action      | Updated Flowerbed | Count |
+|-------|--------------|-----------|------------|-----------|-------------|-------------------|-------|
+| 0     | 1            | N/A       | 0          | No        | Skip        | [1, 0, 0, 0, 1]   | 0     |
+| 1     | 0            | 1         | 0          | No        | Skip        | [1, 0, 0, 0, 1]   | 0     |
+| 2     | 0            | 0         | 0          | Yes       | Plant Flower | [1, 0, 1, 0, 1]   | 1     |
+| 3     | 0            | 1         | 1          | No        | Skip        | [1, 0, 1, 0, 1]   | 1     |
+| 4     | 1            | 0         | N/A        | No        | Skip        | [1, 0, 1, 0, 1]   | 1     |
+
+**Output**: `False`
+
+---
+
+### Example 3: `flowerbed = [0, 0, 1, 0, 0, 1, 0], n = 2`
+
+| Index | Current Plot | Left Plot | Right Plot | Can Plant | Action      | Updated Flowerbed | Count |
+|-------|--------------|-----------|------------|-----------|-------------|-------------------|-------|
+| 0     | 0            | N/A       | 0          | Yes       | Plant Flower | [1, 0, 1, 0, 0, 1, 0] | 1     |
+| 1     | 0            | 1         | 1          | No        | Skip        | [1, 0, 1, 0, 0, 1, 0] | 1     |
+| 2     | 1            | 0         | 0          | No        | Skip        | [1, 0, 1, 0, 0, 1, 0] | 1     |
+| 3     | 0            | 1         | 0          | No        | Skip        | [1, 0, 1, 0, 0, 1, 0] | 1     |
+| 4     | 0            | 0         | 1          | Yes       | Plant Flower | [1, 0, 1, 0, 1, 1, 0] | 2     |
+| 5     | 1            | 0         | 0          | No        | Skip        | [1, 0, 1, 0, 1, 1, 0] | 2     |
+| 6     | 0            | 1         | N/A        | No        | Skip        | [1, 0, 1, 0, 1, 1, 0] | 2     |
+
+**Output**: `True`
+
+---
+
+## How to Use
+
+### Code:
+```python
+from typing import List
+
+class Solution:
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+        count = 0
+        for i in range(len(flowerbed)):
+            if flowerbed[i] == 0:
+                empty_left_plot = (i == 0) or (flowerbed[i - 1] == 0)
+                empty_right_lot = (i == len(flowerbed) - 1) or (flowerbed[i + 1] == 0)
+                if empty_left_plot and empty_right_lot:
+                    flowerbed[i] = 1
+                    count += 1
+        return count >= n
