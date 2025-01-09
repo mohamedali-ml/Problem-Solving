@@ -44,3 +44,100 @@
 	<li><code>1 &lt;= chars.length &lt;= 2000</code></li>
 	<li><code>chars[i]</code> is a lowercase English letter, uppercase English letter, digit, or symbol.</li>
 </ul>
+# String Compression
+
+## Problem Description
+
+The goal is to compress a list of characters in place by following these rules:
+- For each group of consecutive repeating characters:
+  - Replace the group with the character followed by the count of repetitions.
+  - If a character appears only once, it is not followed by a count.
+- The function modifies the input list in place and returns the new length of the compressed list.
+
+---
+
+## Algorithm Explanation
+
+1. **Initialization**:
+   - Use two pointers: 
+     - `r` (read pointer) to traverse the input list.
+     - `w` (write pointer) to overwrite the list with the compressed version.
+   - Start both pointers at the beginning of the list.
+
+2. **Traverse the List**:
+   - For each group of consecutive repeating characters:
+     - Use a nested loop to count the repetitions and increment the `r` pointer.
+     - Write the current character at the position pointed by `w` and increment `w`.
+
+3. **Handle Counts**:
+   - If the count is greater than 1, write each digit of the count to the list at subsequent positions pointed by `w`, incrementing `w` for each digit.
+
+4. **Return the Result**:
+   - The value of `w` represents the length of the compressed list.
+
+---
+
+## Examples and Traces
+
+### Example 1: Input `['a', 'a', 'b', 'b', 'c', 'c', 'c']`
+
+| Step | Read Pointer (`r`) | Write Pointer (`w`) | Current Character | Count | Updated List           |
+|------|---------------------|---------------------|-------------------|-------|------------------------|
+| 1    | 0                  | 0                   | `'a'`             | 2     | `['a', '2', 'b', 'b', 'c', 'c', 'c']` |
+| 2    | 2                  | 2                   | `'b'`             | 2     | `['a', '2', 'b', '2', 'c', 'c', 'c']` |
+| 3    | 4                  | 4                   | `'c'`             | 3     | `['a', '2', 'b', '2', 'c', '3', 'c']` |
+
+**Output**: `6`  
+**Compressed List**: `['a', '2', 'b', '2', 'c', '3']`
+
+---
+
+### Example 2: Input `['a']`
+
+| Step | Read Pointer (`r`) | Write Pointer (`w`) | Current Character | Count | Updated List |
+|------|---------------------|---------------------|-------------------|-------|--------------|
+| 1    | 0                  | 0                   | `'a'`             | 1     | `['a']`      |
+
+**Output**: `1`  
+**Compressed List**: `['a']`
+
+---
+
+### Example 3: Input `['a', 'a', 'a', 'b', 'b', 'a', 'a']`
+
+| Step | Read Pointer (`r`) | Write Pointer (`w`) | Current Character | Count | Updated List           |
+|------|---------------------|---------------------|-------------------|-------|------------------------|
+| 1    | 0                  | 0                   | `'a'`             | 3     | `['a', '3', 'a', 'b', 'b', 'a', 'a']` |
+| 2    | 3                  | 2                   | `'b'`             | 2     | `['a', '3', 'b', '2', 'b', 'a', 'a']` |
+| 3    | 5                  | 4                   | `'a'`             | 2     | `['a', '3', 'b', '2', 'a', '2', 'a']` |
+
+**Output**: `6`  
+**Compressed List**: `['a', '3', 'b', '2', 'a', '2']`
+
+---
+
+## Complexity Analysis
+
+### Time Complexity
+- The algorithm processes each character exactly once:
+  - Counting repetitions: \( O(n) \), where \( n \) is the length of the list.
+  - Writing the compressed characters and counts: \( O(n) \).
+- **Overall Time Complexity**: \( O(n) \).
+
+### Space Complexity
+- The algorithm uses constant extra space:
+  - Two pointers and temporary variables.
+- **Space Complexity**: \( O(1) \).
+
+---
+
+## How to Use
+
+### Example Usage
+```python
+solution = Solution()
+chars = ['a', 'a', 'b', 'b', 'c', 'c', 'c']
+length = solution.compress(chars)
+print(length)  # Output: 6
+print(chars[:length])  # Output: ['a', '2', 'b', '2', 'c', '3']
+
